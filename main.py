@@ -8,7 +8,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-user = "@akirareiko"
+user = "@SoyTecnopata"
 
 pp.pprint("USUARIO: " + user)
 
