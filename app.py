@@ -1,17 +1,18 @@
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, flash, request, redirect, url_for
 from wtforms import Form, StringField, validators
 import pandas as pd
 
-import color_segmentation
-import get_favorites_twitter
+#import color_segmentation
+#import get_favorites_twitter
 import profile_pic
 import user_color
-import visual_rec_api
+#import visual_rec_api
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
 def hp_m(user):
+    page=''
     pp.pprint("USUARIO: " + user)
 
     page_color = user_color.get(user)
@@ -26,7 +27,8 @@ def hp_m(user):
     pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
 
     tez, gender = 2,'female'#visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
-
+    if gender=='female':
+        page='templates/SHEIN/SHEIN_mujer.html'
     pp.pprint("COLOR DE PIEL: " + str(tez))
     pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
 
@@ -34,6 +36,7 @@ def hp_m(user):
     #labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
     pp.pprint("CATEGORIAS Y CONCEPTOS:")
     #pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
+    return page
 
 
 def hiperpersonalizacion(user):
@@ -77,9 +80,8 @@ def home():
         print(user)
         #hiperpersonalizacion(user)
         hp_m(user)
+        return redirect(url_for('page'))
 
-        if form.validate():
-            print(user)
 
 
 
@@ -87,15 +89,11 @@ def home():
 
 
 
+@app.route('/page', methods=['GET', 'POST'])
+def page():
+    return render_template('/SHEIN/SHEIN_mujer.html', )
 
 
-@app.route('/elasticity', methods=['GET', 'POST'])
-def elast():
-    return render_template('p_home.html', result=dict)
-
-@app.route('/priceopt', methods=['GET', 'POST'])
-def priceopt():
-    return render_template('p_home.html', result=dict)
 #app.run(host= "0.0.0.0", port="5000")
 app.run(host='localhost' , port="80")
 
