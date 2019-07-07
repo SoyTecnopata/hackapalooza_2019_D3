@@ -2,66 +2,57 @@ from flask import Flask, render_template, flash, request, redirect, url_for
 from wtforms import Form, StringField, validators
 import pandas as pd
 
-#import color_segmentation
-#import get_favorites_twitter
+import color_segmentation
+import get_favorites_twitter
 import profile_pic
 import user_color
-#import visual_rec_api
+import visual_rec_api
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-def hp_m(user):
-    page=''
-    pp.pprint("USUARIO: " + user)
 
-    page_color = user_color.get(user)
-
-    #if page_color == None:
-    #    profile_pic.get(user[:])
-        #page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
-
-    #else:
-    #   profile_pic.get(user[:])
-
-    pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
-
-    tez, gender = 2,'female'#visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
-    if gender=='female':
-        page='templates/SHEIN/SHEIN_mujer.html'
-    pp.pprint("COLOR DE PIEL: " + str(tez))
-    pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
-
-    #if gender == "male":
-    #labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
-    pp.pprint("CATEGORIAS Y CONCEPTOS:")
-    #pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
-    return page
-
-
+page_dict={}
 def hiperpersonalizacion(user):
-    pp.pprint("USUARIO: " + user)
+    global page_dict
+    for key in page_dict:
+        if user == key:
+            return page_dict[user]
+        else:
+            
+            page_dict[user]={}
+            pp.pprint("USUARIO: " + user)
+        
+            page_color = user_color.get(user)
+        
+            if page_color == None:
+                profile_pic.get(user[:])
+                page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
+        
+            else:
+                profile_pic.get(user[:])
+                
+            pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
+            page_dict[user]['color']=page_color
+            tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
+            page_dict[user]['tez']=tez
+        
+            pp.pprint("COLOR DE PIEL: " + str(tez))
+            pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
+            if gender == 'male':
+                page_dict[user]['gender']='male'
+            else:
+                page_dict[user]['gender']='female'
+            
+            #if gender == "male":
+            labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
+            pp.pprint("CATEGORIAS Y CONCEPTOS:")
+            page_dict[user]['labels']=labels_for_clothes
+            pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
+            return page_dict
 
-    page_color = user_color.get(user)
 
-    if page_color == None:
-        profile_pic.get(user[:])
-        page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
 
-    else:
-        profile_pic.get(user[:])
-
-    pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
-
-    tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
-
-    pp.pprint("COLOR DE PIEL: " + str(tez))
-    pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
-
-    #if gender == "male":
-    labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
-    pp.pprint("CATEGORIAS Y CONCEPTOS:")
-    pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
 
 DEBUG = True
 app = Flask(__name__)
@@ -74,12 +65,13 @@ class Inputs(Form):
 
 @app.route('/', methods=[ 'GET', 'POST'])
 def home():
+
     form = Inputs()
     if request.method == 'POST':
         user = request.form['username']
         print(user)
-        #hiperpersonalizacion(user)
-        hp_m(user)
+        hiperpersonalizacion(user)
+        
         return redirect(url_for('page'))
 
 
@@ -91,7 +83,8 @@ def home():
 
 @app.route('/page', methods=['GET', 'POST'])
 def page():
-    return render_template('/SHEIN/SHEIN_mujer.html', )
+    print(page_dict)
+    return render_template('/SHEIN/mujer.html', )
 
 
 #app.run(host= "0.0.0.0", port="5000")
