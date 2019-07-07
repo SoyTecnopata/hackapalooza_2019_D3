@@ -13,13 +13,14 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 page_dict={}
-examples={u'Lupita_Nyongo': 'https://twitter.com/Lupita_Nyongo', u'akirareiko':'https://twitter.com/akirareiko', u'TomHolland1996':'https://twitter.com/TomHolland1996', u'aristeguicnn':'https://twitter.com/aristeguicnn'}
+examples={u'Lupita_Nyongo': 'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_lupita_01.png', u'akirareiko':'https://twitter.com/akirareiko', u'TomHolland1996':'https://twitter.com/TomHolland1996', u'aristeguicnn':'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_aristegui_01.png'}
 user=''
 def hiperpersonalizacion(user):
     global page_dict
     
     if user in list(page_dict.keys()):
         print ('PREVIOUS USER: ',user)
+        pp.pprint(page_dict[user])
         return page_dict[user]
     else:
         
@@ -91,7 +92,7 @@ def page():
     print('page:',user)
     try:
         url_back=examples[user]
-        return redirect((url_back))
+        #return redirect((url_back))
     except:
         if page_dict[user]['gender']=='female':
             print('its femaleeeeeeeeeeeeeee')
@@ -101,7 +102,7 @@ def page():
             
         
     
-    url_back='https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/Screenshot%20from%202019-07-07%2009-21-42.png'
+    #url_back='https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/Screenshot%20from%202019-07-07%2009-21-42.png'
     return render_template('page.html', url_back=url_back)
 
 
