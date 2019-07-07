@@ -37,20 +37,26 @@ def get_tags_from_fav(user):
         tags = []
         
         for keys in dic_tweets.keys():
-        
-            response_categories = natural_language_understanding.analyze(
-                text=dic_tweets[keys],
-                features=Features(categories=CategoriesOptions(limit=5))).get_result()
+            try:
             
-            response_concepts = natural_language_understanding.analyze(
-            text=dic_tweets[keys],
-            features=Features(concepts=ConceptsOptions(limit=5))).get_result()
-            
-            if len(response_concepts["concepts"]) != 0:
-                for i in range(len(response_concepts["concepts"])):
-                    tags.append(response_concepts["concepts"][i]["text"])
+                response_categories = natural_language_understanding.analyze(
+                    text=dic_tweets[keys],
+                    features=Features(categories=CategoriesOptions(limit=5))).get_result()
                 
-            tags.append(response_categories["categories"][0]["label"].split("/")[-1])
+                response_concepts = natural_language_understanding.analyze(
+                text=dic_tweets[keys],
+                features=Features(concepts=ConceptsOptions(limit=5))).get_result()
+            
+            
+                if len(response_concepts["concepts"]) != 0:
+                    for i in range(len(response_concepts["concepts"])):
+                        tags.append(response_concepts["concepts"][i]["text"])
+                        print('     '+str(response_concepts["concepts"][i]["text"]))
+                    
+                tags.append(response_categories["categories"][0]["label"].split("/")[-1])
+                print('     '+str(response_categories["categories"][0]["label"].split("/")[-1]))
+            except:
+                continue
         
         return tags
     

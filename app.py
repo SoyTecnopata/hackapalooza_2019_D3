@@ -13,7 +13,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 page_dict={}
-examples={u'Lupita_Nyongo': 'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_lupita_01.png', u'akirareiko':'https://twitter.com/akirareiko', u'TomHolland1996':'https://twitter.com/TomHolland1996', u'aristeguicnn':'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_aristegui_01.png'}
+examples={u'Lupita_Nyongo': 'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_lupita_01.png', u'akirareiko':'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_akira_01.png', u'TomHolland1996':'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_tom_01.png', u'aristeguicnn':'https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/site_visual_aristegui_01.png'}
 user=''
 def hiperpersonalizacion(user):
     global page_dict
@@ -27,32 +27,41 @@ def hiperpersonalizacion(user):
         page_dict[user]={}
         pp.pprint("USUARIO: " + user)
     
-        page_color = user_color.get(user)
+        page_color, mujer_link,hombre_link = user_color.get(user)
     
         if page_color == None:
             profile_pic.get(user[:])
-            page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
+            page_color, mujer_link,hombre_link = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
     
         else:
             profile_pic.get(user[:])
             
         pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
         page_dict[user]['color']=page_color
-        tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
+        try:
+            tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
+        except:
+            tez, gender = 1, 'None'
         page_dict[user]['tez']=tez
     
         pp.pprint("COLOR DE PIEL: " + str(tez))
         pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
         if gender == 'male':
             page_dict[user]['gender']='male'
+            page_dict[user]['url']=hombre_link
+        elif gender == 'None':
+            page_dict[user]['gender']='None'
+            page_dict[user]['url']='https://www.shein.com.mx/'
         else:
             page_dict[user]['gender']='female'
+            page_dict[user]['url']=mujer_link
         
         #if gender == "male":
+        pp.pprint("CATEGORIAS Y CONCEPTOS:")        
         labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
-        pp.pprint("CATEGORIAS Y CONCEPTOS:")
+        
         page_dict[user]['labels']=labels_for_clothes
-        pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
+        #pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
         return page_dict
 
 
@@ -94,11 +103,8 @@ def page():
         url_back=examples[user]
         #return redirect((url_back))
     except:
-        if page_dict[user]['gender']=='female':
-            print('its femaleeeeeeeeeeeeeee')
-            return redirect('https://www.shein.com.mx/Best-Selling-Clothing-vc-70054.html?icn=best-selling-clothing&ici=mx_tab01navbar03')
-        else:
-            return redirect('https://www.shein.com.mx/Men-Clothing-c-1969.html?icn=men-clothing&ici=mx_tab02navbar02')
+        return redirect(page_dict[user]['url'])
+       
             
         
     

@@ -8,7 +8,7 @@ visual_recognition = VisualRecognitionV3(
     iam_apikey='VGX5XvPUg7OwLFT8Np2YPpBoETXKOLSRU6W1BmbmQsXu')
 
 
-file_name = './oscar.jpg'
+#file_name = './oscar.jpg'
 
 tez_color = [[216, 187,171],[167,129,95],[109,73,55]]
 
@@ -54,6 +54,10 @@ def get_tez_and_gender(file_name):
     # 2 is afroamerican
     
     gender = info_dict["gender"]["gender_label"] ####### result
+    
+    #cv2.imshow("original", image)
+    #cv2.imshow("crop", image_crop)
+    #cv2.imshow("with filter", image_crop_w_filter)
 
     return tez_result, gender
 
