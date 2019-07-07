@@ -8,5 +8,8 @@ def get(user):
     soup = BeautifulSoup(r.content, 'html5lib')
     search_2 = str(soup.find("style"))
     result = re.search('color: (.*);', search_2)
-    color=result.group(1)
+    try:
+        color=result.group(1)
+    except Exception:
+        color= None
     return color
