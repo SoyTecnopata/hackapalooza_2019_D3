@@ -16,7 +16,7 @@ def get_tez_and_gender(file_name):
 
     with open(file_name, 'rb') as images_file:
         faces = visual_recognition.detect_faces(images_file).get_result()
-    print(json.dumps(faces, indent=2))
+    #print(json.dumps(faces, indent=2))
     
     #dict_values = faces.viewvalues()
     info_dict = faces["images"][0]["faces"][0]
