@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, redirect, url_for
+from flask import Flask, render_template, flash, request, redirect, url_for, send_from_directory
 from wtforms import Form, StringField, validators
 import pandas as pd
 
@@ -13,43 +13,46 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 page_dict={}
+examples={u'Lupita_Nyongo': 'https://twitter.com/Lupita_Nyongo', u'akirareiko':'https://twitter.com/akirareiko', u'TomHolland1996':'https://twitter.com/TomHolland1996', u'aristeguicnn':'https://twitter.com/aristeguicnn'}
+user=''
 def hiperpersonalizacion(user):
     global page_dict
-    for key in page_dict:
-        if user == key:
-            return page_dict[user]
+    
+    if user in list(page_dict.keys()):
+        print ('PREVIOUS USER: ',user)
+        return page_dict[user]
+    else:
+        
+        page_dict[user]={}
+        pp.pprint("USUARIO: " + user)
+    
+        page_color = user_color.get(user)
+    
+        if page_color == None:
+            profile_pic.get(user[:])
+            page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
+    
         else:
+            profile_pic.get(user[:])
             
-            page_dict[user]={}
-            pp.pprint("USUARIO: " + user)
+        pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
+        page_dict[user]['color']=page_color
+        tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
+        page_dict[user]['tez']=tez
+    
+        pp.pprint("COLOR DE PIEL: " + str(tez))
+        pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
+        if gender == 'male':
+            page_dict[user]['gender']='male'
+        else:
+            page_dict[user]['gender']='female'
         
-            page_color = user_color.get(user)
-        
-            if page_color == None:
-                profile_pic.get(user[:])
-                page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
-        
-            else:
-                profile_pic.get(user[:])
-                
-            pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
-            page_dict[user]['color']=page_color
-            tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
-            page_dict[user]['tez']=tez
-        
-            pp.pprint("COLOR DE PIEL: " + str(tez))
-            pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
-            if gender == 'male':
-                page_dict[user]['gender']='male'
-            else:
-                page_dict[user]['gender']='female'
-            
-            #if gender == "male":
-            labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
-            pp.pprint("CATEGORIAS Y CONCEPTOS:")
-            page_dict[user]['labels']=labels_for_clothes
-            pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
-            return page_dict
+        #if gender == "male":
+        labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
+        pp.pprint("CATEGORIAS Y CONCEPTOS:")
+        page_dict[user]['labels']=labels_for_clothes
+        pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
+        return page_dict
 
 
 
@@ -65,9 +68,11 @@ class Inputs(Form):
 
 @app.route('/', methods=[ 'GET', 'POST'])
 def home():
-
+    global user
+    user=''
     form = Inputs()
     if request.method == 'POST':
+        user=''
         user = request.form['username']
         print(user)
         hiperpersonalizacion(user)
@@ -83,8 +88,21 @@ def home():
 
 @app.route('/page', methods=['GET', 'POST'])
 def page():
-    print(page_dict)
-    return render_template('/SHEIN/mujer.html', )
+    print('page:',user)
+    try:
+        url_back=examples[user]
+        return redirect((url_back))
+    except:
+        if page_dict[user]['gender']=='female':
+            print('its femaleeeeeeeeeeeeeee')
+            return redirect('https://www.shein.com.mx/Best-Selling-Clothing-vc-70054.html?icn=best-selling-clothing&ici=mx_tab01navbar03')
+        else:
+            return redirect('https://www.shein.com.mx/Men-Clothing-c-1969.html?icn=men-clothing&ici=mx_tab02navbar02')
+            
+        
+    
+    url_back='https://raw.githubusercontent.com/SoyTecnopata/hackapalooza_2019_D3/master/templates/images/Screenshot%20from%202019-07-07%2009-21-42.png'
+    return render_template('page.html', url_back=url_back)
 
 
 #app.run(host= "0.0.0.0", port="5000")
