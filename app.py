@@ -11,6 +11,30 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
+def hp_m(user):
+    pp.pprint("USUARIO: " + user)
+
+    page_color = user_color.get(user)
+
+    #if page_color == None:
+    #    profile_pic.get(user[:])
+        #page_color = color_segmentation.get_colors("./imagenes/" + user[:] + "/profile_pic.jpg")
+
+    #else:
+    #   profile_pic.get(user[:])
+
+    pp.pprint("COLOR DEL SITIO: " + str(page_color))  ### Color que va directo a la pagina
+
+    tez, gender = 2,'female'#visual_rec_api.get_tez_and_gender("./imagenes/" + user[:] + "/profile_pic.jpg")
+
+    pp.pprint("COLOR DE PIEL: " + str(tez))
+    pp.pprint("GENERO: " + str(gender))  #### Color de piel y genero
+
+    #if gender == "male":
+    #labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
+    pp.pprint("CATEGORIAS Y CONCEPTOS:")
+    #pp.pprint(labels_for_clothes)  ### Labels para ordenar la ropa de los hombres
+
 
 def hiperpersonalizacion(user):
     pp.pprint("USUARIO: " + user)
@@ -51,7 +75,8 @@ def home():
     if request.method == 'POST':
         user = request.form['username']
         print(user)
-        hiperpersonalizacion(user)
+        #hiperpersonalizacion(user)
+        hp_m(user)
 
         if form.validate():
             print(user)
