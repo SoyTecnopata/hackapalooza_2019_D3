@@ -8,7 +8,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-user = "@SoyTecnopata"
+user = "@Lupita_Nyongo"
 
 pp.pprint("USUARIO: " + user)
 
@@ -28,10 +28,10 @@ tez, gender = visual_rec_api.get_tez_and_gender("./imagenes/" + user[1:] + "/pro
 pp.pprint( "COLOR DE PIEL: " + str(tez))
 pp.pprint( "GENERO: " + str(gender)) #### Color de piel y genero
 
-if gender == "male":
-    labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
-    pp.pprint("CATEGORIAS Y CONCEPTOS:")
-    pp.pprint(labels_for_clothes) ### Labels para ordenar la ropa de los hombres
-    
+#if gender == "male":
+labels_for_clothes = get_favorites_twitter.get_tags_from_fav(user)
+pp.pprint("CATEGORIAS Y CONCEPTOS:")
+pp.pprint(labels_for_clothes) ### Labels para ordenar la ropa de los hombres
+
 
     

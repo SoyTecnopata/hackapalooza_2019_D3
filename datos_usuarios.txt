@@ -1,0 +1,111 @@
+'USUARIO: @akirareiko'
+'COLOR DEL SITIO: [42, 186, 69]'
+'COLOR DE PIEL: 2'
+'GENERO: male'
+'CATEGORIAS Y CONCEPTOS:'
+[   u'baseball',
+    u'arts education',
+    u'movies and tv',
+    u'food and drink',
+    u'email',
+    u'Animax',
+    u'Mecha',
+    u'anime and manga',
+    u'body art',
+    u'Trigraph',
+    u'hdtvs',
+    u'graphics software',
+    u'disease',
+    u'social network',
+    u'divorce',
+    u'email',
+    u'talk radio',
+    u'unrest and war',
+    u'email',
+    u'Camera',
+    u'camera bags',
+    u'law, govt and politics',
+    u'Musicology',
+    u'Jean-Jacques Nattiez',
+    u'playstation',
+    u'HTTPS',
+    u'email']
+
+______________________________________________
+
+'USUARIO: @aristeguicnn'
+'COLOR DEL SITIO: [58, 151, 252]'
+'COLOR DE PIEL: 0'
+'GENERO: female'
+'CATEGORIAS Y CONCEPTOS:'
+[   u'Mem\xe9tica',
+    u'Richard Dawkins',
+    u'El gen ego\xedsta',
+    u'exhibition',
+    u'religion and spirituality',
+    u'Abrazo de Maip\xfa',
+    u'movies',
+    u'Carmen Aristegui',
+    u'Reforma',
+    u'CNN en Espa\xf1ol',
+    u'CNN Latino',
+    u'national news',
+    u'23 de marzo',
+    u'law, govt and politics',
+    u'23 de marzo',
+    u'law, govt and politics',
+    u'23 de marzo',
+    u'music awards',
+    u'23 de marzo',
+    u'law, govt and politics',
+    u'Martes',
+    u'divorce',
+    u'memory',
+    u'food',
+    u'email',
+    u'Programa electoral',
+    u'government',
+    u'technological innovation',
+    u'operating systems',
+    u'Rep\xfablica Dominicana',
+    u'Rep\xfablica',
+    u'cigars',
+    u'sleep disorders']
+
+____________________________________________
+
+
+'USUARIO: @Lupita_Nyongo'
+'COLOR DEL SITIO: [58, 151, 252]'
+'COLOR DE PIEL: 2'
+'GENERO: female'
+'CATEGORIAS Y CONCEPTOS:'
+[   u'Vorbis',
+    u'music reference',
+    u"Children's literature",
+    u"children's books",
+    u'Truth',
+    u'movies and tv',
+    u'beauty contest',
+    u'The Bells',
+    u'wrestling',
+    u'bank',
+    u'2002 singles',
+    u'shows and events',
+    u'2000s music groups',
+    u'incest and abuse support',
+    u'Episode',
+    u'television',
+    u'Futurology',
+    u'social network',
+    u'shows and events',
+    u'shows and events',
+    u'Man',
+    u'divorce',
+    u'divorce',
+    u'shows and events',
+    u'shows and events',
+    u'books and literature',
+    u'shows and events']
+
+
